@@ -31,5 +31,20 @@ const dialogueData = {
       "This home is locked for now.",
       "A student submission will unlock it in a future version."
     ]
+  },
+
+  doorLocked: {
+    speaker: "Door",
+    lines: ["This door is locked.", "Complete a student platformer to earn the right key."]
+  },
+
+  doorLockedYellow: {
+    speaker: "Yellow Door",
+    lines: ["You need the Yellow Key.", "Beat the Sample Studio platformer to earn it."]
+  },
+
+  doorUnlocked: {
+    speaker: "Door",
+    lines: ["You have the key!", "This passage is open for future district expansion."]
   }
 };

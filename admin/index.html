@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FVGD Teacher Admin</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 24px; background: #111; color: #eee; }
+    input, textarea, button, select { margin: 4px 0; padding: 8px; width: 100%; max-width: 480px; }
+    table { border-collapse: collapse; width: 100%; margin-top: 16px; }
+    th, td { border: 1px solid #444; padding: 8px; text-align: left; }
+    section { margin-bottom: 32px; }
+    .warn { color: #f39c12; font-size: 14px; }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+</head>
+<body>
+  <h1>FVGD Teacher Admin</h1>
+  <p class="warn">Use only on a trusted machine. Service role key grants full database access. Never commit this key to Git.</p>
+
+  <section>
+    <h2>Connect</h2>
+    <label>Supabase URL</label>
+    <input id="supabaseUrl" value="https://ixpfcghaorhidmrtnaez.supabase.co" />
+    <label>Service role key</label>
+    <input id="serviceKey" type="password" placeholder="Paste from Supabase Dashboard → Settings → API" />
+    <button id="btnConnect">Connect</button>
+    <p id="connectStatus"></p>
+  </section>
+
+  <section>
+    <h2>Enroll student (CSV row: class, id, name, pin)</h2>
+    <textarea id="enrollCsv" rows="4" placeholder="P1,15,Jordan Smith,123456"></textarea>
+    <button id="btnEnroll">Enroll via Edge Function</button>
+    <p id="enrollStatus"></p>
+  </section>
+
+  <section>
+    <h2>Submissions queue</h2>
+    <button id="btnRefreshSubs">Refresh</button>
+    <table>
+      <thead>
+        <tr><th>When</th><th>Student</th><th>World</th><th>Type</th><th>Status</th><th>Actions</th></tr>
+      </thead>
+      <tbody id="subsBody"></tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Export submissions CSV</h2>
+    <button id="btnExport">Download CSV</button>
+  </section>
+
+  <script>
+    let adminClient = null;
+    let submissionsCache = [];
+
+    document.getElementById("btnConnect").onclick = function () {
+      const url = document.getElementById("supabaseUrl").value.trim();
+      const key = document.getElementById("serviceKey").value.trim();
+      adminClient = window.supabase.createClient(url, key);
+      sessionStorage.setItem("fvgd.admin.url", url);
+      sessionStorage.setItem("fvgd.admin.key", key);
+      document.getElementById("connectStatus").textContent = "Connected.";
+    };
+
+    const savedUrl = sessionStorage.getItem("fvgd.admin.url");
+    const savedKey = sessionStorage.getItem("fvgd.admin.key");
+    if (savedUrl) document.getElementById("supabaseUrl").value = savedUrl;
+    if (savedKey) document.getElementById("serviceKey").value = savedKey;
+
+    document.getElementById("btnEnroll").onclick = async function () {
+      const line = document.getElementById("enrollCsv").value.trim().split("\n")[0];
+      const parts = line.split(",").map(function (p) { return p.trim(); });
+      if (parts.length < 4) {
+        document.getElementById("enrollStatus").textContent = "Need: class, student_id, display_name, pin";
+        return;
+      }
+      const url = document.getElementById("supabaseUrl").value.trim();
+      const key = document.getElementById("serviceKey").value.trim();
+      const res = await fetch(url + "/functions/v1/enroll_student", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Authorization: "Bearer " + key },
+        body: JSON.stringify({
+          class_code: parts[0],
+          student_id: parts[1],
+          display_name: parts[2],
+          pin: parts[3]
+        })
+      });
+      const data = await res.json();
+      document.getElementById("enrollStatus").textContent = res.ok ? "Enrolled: " + data.email : data.error;
+    };
+
+    document.getElementById("btnRefreshSubs").onclick = async function () {
+      if (!adminClient) return;
+      const { data, error } = await adminClient
+        .from("student_submissions")
+        .select("*, players(display_name, class_section, student_id)")
+        .order("submitted_at", { ascending: false })
+        .limit(100);
+      if (error) {
+        alert(error.message);
+        return;
+      }
+      submissionsCache = data || [];
+      const body = document.getElementById("subsBody");
+      body.innerHTML = "";
+      submissionsCache.forEach(function (row) {
+        const tr = document.createElement("tr");
+        const student = row.players ? row.players.display_name + " (" + row.players.class_section + "-" + row.players.student_id + ")" : row.player_id;
+        tr.innerHTML =
+          "<td>" + (row.submitted_at || "") + "</td>" +
+          "<td>" + student + "</td>" +
+          "<td>" + row.world_id + "</td>" +
+          "<td>" + row.submission_type + "</td>" +
+          "<td>" + row.status + "</td>" +
+          "<td><button data-id='" + row.id + "' data-status='approved'>Approve</button> " +
+          "<button data-id='" + row.id + "' data-status='rejected'>Reject</button></td>";
+        body.appendChild(tr);
+      });
+      body.querySelectorAll("button").forEach(function (btn) {
+        btn.onclick = async function () {
+          await adminClient.from("student_submissions").update({
+            status: btn.getAttribute("data-status"),
+            reviewed_at: new Date().toISOString()
+          }).eq("id", btn.getAttribute("data-id"));
+          document.getElementById("btnRefreshSubs").click();
+        };
+      });
+    };
+
+    document.getElementById("btnExport").onclick = function () {
+      const rows = [["submitted_at", "class", "student_id", "display_name", "world_id", "type", "status"]];
+      submissionsCache.forEach(function (r) {
+        rows.push([
+          r.submitted_at || "",
+          r.players?.class_section || "",
+          r.players?.student_id || "",
+          r.players?.display_name || "",
+          r.world_id,
+          r.submission_type,
+          r.status
+        ]);
+      });
+      const csv = rows.map(function (r) { return r.map(function (c) { return '"' + String(c).replace(/"/g, '""') + '"'; }).join(","); }).join("\n");
+      const blob = new Blob([csv], { type: "text/csv" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "fvgd-submissions.csv";
+      a.click();
+    };
+  </script>
+</body>
+</html>

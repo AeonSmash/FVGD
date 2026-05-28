@@ -12,6 +12,7 @@ const overworldScene = {
   },
 
   create() {
+    refreshHomeRegistry();
     validateHomeRegistry(homeRegistry);
 
     this.collisionObjects = buildCollisionFromMap(overworldMap);
@@ -77,6 +78,15 @@ const overworldScene = {
 
     if (interactable.type === INTERACTABLE_TYPES.SIGN) {
       this.openDialogue(interactable.dialogueKey);
+      return;
+    }
+
+    if (interactable.type === INTERACTABLE_TYPES.COLORED_DOOR) {
+      if (hasReward(interactable.requires)) {
+        this.openDialogue("doorUnlocked");
+      } else {
+        this.openDialogue(interactable.dialogueKeyLocked || "doorLocked");
+      }
     }
   },
 
@@ -106,7 +116,9 @@ const overworldScene = {
   draw(ctx) {
     drawTilemapLayer(ctx, overworldMap, this.camera);
     drawHomeIcons(ctx, homeRegistry, this.camera);
+    this.drawColoredDoors(ctx);
     this.player.draw(ctx, this.camera);
+    drawRewardsBar(ctx);
 
     if (this.currentInteractable && !this.dialogue.active) {
       let promptText = "Press E to interact";
@@ -119,6 +131,8 @@ const overworldScene = {
         }
       } else if (this.currentInteractable.type === INTERACTABLE_TYPES.SIGN) {
         promptText = "Press E to read sign";
+      } else if (this.currentInteractable.type === INTERACTABLE_TYPES.COLORED_DOOR) {
+        promptText = "Press E to try door";
       }
 
       drawInteractionPrompt(ctx, promptText);
@@ -146,6 +160,23 @@ const overworldScene = {
       collisionCount: this.collisionObjects.length,
       homeCount: homeRegistry.length
     });
+  },
+
+  drawColoredDoors(ctx) {
+    if (typeof overworldDoors === "undefined") return;
+    const camX = this.camera.x;
+    const camY = this.camera.y;
+    for (let i = 0; i < overworldDoors.length; i++) {
+      const door = overworldDoors[i];
+      const reward = rewardRegistry[door.requires];
+      const color = reward && reward.color ? reward.color : "#888";
+      ctx.fillStyle = color;
+      ctx.fillRect(door.x - camX, door.y - camY, door.width, door.height);
+      if (!hasReward(door.requires)) {
+        ctx.fillStyle = "rgba(0,0,0,0.5)";
+        ctx.fillRect(door.x - camX, door.y - camY, door.width, door.height);
+      }
+    }
   },
 
   exit() {}

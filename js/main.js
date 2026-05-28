@@ -1,7 +1,19 @@
-// Boot sequence: register scenes, start on title, run the game loop.
-sceneManager.register(titleScene);
-sceneManager.register(overworldScene);
-sceneManager.register(sampleHomeScene);
+// Boot: config, optional Supabase, save load, register scenes, start loop.
+async function bootGame() {
+  initSupabase();
+  await restoreAuthSession();
+  await loadGameProgress();
 
-sceneManager.changeSceneImmediate("title");
-requestAnimationFrame(gameLoop);
+  refreshHomeRegistry();
+
+  sceneManager.register(titleScene);
+  sceneManager.register(loginScene);
+  sceneManager.register(overworldScene);
+  sceneManager.register(platformerScene);
+  registerStudentHomeScenes();
+
+  sceneManager.changeSceneImmediate("title");
+  requestAnimationFrame(gameLoop);
+}
+
+bootGame();

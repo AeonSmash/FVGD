@@ -3,22 +3,13 @@ const HOME_ICON_COLORS = {
   blue: "#3498db",
   orange: "#e67e22",
   gray: "#7f8c8d",
-  green: "#27ae60"
+  green: "#27ae60",
+  red: "#e74c3c",
+  yellow: "#f1c40f"
 };
 
-const homeRegistry = [
-  {
-    id: "sample_home",
-    name: "Sample Studio",
-    author: "Teacher",
-    description: "A sample student home used to test the overworld system.",
-    iconColor: "purple",
-    position: { x: 320, y: 256 },
-    width: 32,
-    height: 32,
-    homeScene: "sampleHome",
-    locked: false
-  },
+// Plot placeholders until students are approved and registered.
+const plotHomes = [
   {
     id: "locked_home",
     name: "Locked Home",
@@ -28,7 +19,6 @@ const homeRegistry = [
     position: { x: 768, y: 256 },
     width: 32,
     height: 32,
-    homeScene: "sampleHome",
     locked: true
   },
   {
@@ -40,7 +30,6 @@ const homeRegistry = [
     position: { x: 320, y: 640 },
     width: 32,
     height: 32,
-    homeScene: "sampleHome",
     locked: true
   },
   {
@@ -52,7 +41,6 @@ const homeRegistry = [
     position: { x: 768, y: 640 },
     width: 32,
     height: 32,
-    homeScene: "sampleHome",
     locked: true
   },
   {
@@ -64,40 +52,68 @@ const homeRegistry = [
     position: { x: 544, y: 448 },
     width: 32,
     height: 32,
-    homeScene: "sampleHome",
     locked: true
   }
 ];
 
+function buildHomeRegistryFromManifests() {
+  const registry = [];
+
+  for (let i = 0; i < studentManifests.length; i++) {
+    const m = studentManifests[i].manifest;
+    registry.push({
+      id: m.id,
+      name: m.name,
+      author: m.author,
+      description: m.description,
+      iconColor: m.iconColor,
+      position: m.position,
+      width: m.width || 32,
+      height: m.height || 32,
+      homeScene: getHomeSceneNameForManifest(m.id),
+      locked: !!m.locked,
+      platformerLevelId: m.platformerLevelId,
+      rewardId: m.rewardId
+    });
+  }
+
+  for (let j = 0; j < plotHomes.length; j++) {
+    const plot = plotHomes[j];
+    const already = registry.some(function (h) { return h.id === plot.id; });
+    if (!already) {
+      registry.push({
+        ...plot,
+        homeScene: "sampleHome",
+        locked: true
+      });
+    }
+  }
+
+  return registry;
+}
+
+let homeRegistry = buildHomeRegistryFromManifests();
+
+function refreshHomeRegistry() {
+  homeRegistry = buildHomeRegistryFromManifests();
+}
+
 function validateHomeRegistry(registry) {
   const seenIds = {};
-
   for (let i = 0; i < registry.length; i++) {
     const home = registry[i];
     const label = "Home registry entry " + i;
-
     if (!home.id) {
       console.warn(label + ": missing id");
       continue;
     }
-
     if (seenIds[home.id]) {
       console.warn(label + ": duplicate id '" + home.id + "'");
     }
     seenIds[home.id] = true;
-
-    if (!home.name) {
-      console.warn(label + " (" + home.id + "): missing name");
-    }
-
-    if (!home.homeScene) {
-      console.warn(label + " (" + home.id + "): missing homeScene");
-    }
-
-    if (!home.position) {
-      console.warn(label + " (" + home.id + "): missing position");
-    }
-
+    if (!home.name) console.warn(label + " (" + home.id + "): missing name");
+    if (!home.homeScene) console.warn(label + " (" + home.id + "): missing homeScene");
+    if (!home.position) console.warn(label + " (" + home.id + "): missing position");
     if (!home.width || !home.height || home.width <= 0 || home.height <= 0) {
       console.warn(label + " (" + home.id + "): invalid dimensions");
     }
@@ -111,7 +127,6 @@ function drawHomeIcons(ctx, registry, camera) {
   for (let i = 0; i < registry.length; i++) {
     const home = registry[i];
     const color = HOME_ICON_COLORS[home.iconColor] || "#ffffff";
-
     ctx.fillStyle = color;
     ctx.fillRect(
       home.position.x - camX,
@@ -119,7 +134,6 @@ function drawHomeIcons(ctx, registry, camera) {
       home.width,
       home.height
     );
-
     if (home.locked) {
       ctx.fillStyle = "rgba(0, 0, 0, 0.45)";
       ctx.fillRect(
@@ -128,6 +142,11 @@ function drawHomeIcons(ctx, registry, camera) {
         home.width,
         home.height
       );
+    }
+    if (typeof isHomeVisited === "function" && isHomeVisited(home.id)) {
+      ctx.fillStyle = "#ffffff";
+      ctx.font = "12px monospace";
+      ctx.fillText("*", home.position.x - camX + 4, home.position.y - camY + 14);
     }
   }
 }
@@ -160,6 +179,23 @@ function buildHomeInteractables(registry) {
     width: overworldMap.signPosition.width,
     height: overworldMap.signPosition.height
   });
+
+  if (typeof overworldDoors !== "undefined") {
+    for (let d = 0; d < overworldDoors.length; d++) {
+      const door = overworldDoors[d];
+      interactables.push({
+        type: INTERACTABLE_TYPES.COLORED_DOOR,
+        id: door.id,
+        name: door.name,
+        requires: door.requires,
+        dialogueKeyLocked: door.dialogueKeyLocked || "doorLocked",
+        x: door.x,
+        y: door.y,
+        width: door.width,
+        height: door.height
+      });
+    }
+  }
 
   return interactables;
 }

@@ -7,6 +7,60 @@ class Player {
     this.speed = 2.5;
     this.facing = "down";
     this.state = "idle";
+    this.vx = 0;
+    this.vy = 0;
+    this.onGround = false;
+    this.jumpCount = 0;
+  }
+
+  updatePlatformer(level) {
+    const moveSpeed = 4;
+    const jumpForce = -11;
+    const gravity = 0.55;
+    const maxFall = 14;
+    const solids = level.solids || [];
+    const hazards = level.hazards || [];
+
+    this.vx = 0;
+    if (isMoveLeft()) {
+      this.vx = -moveSpeed;
+      this.facing = "left";
+    } else if (isMoveRight()) {
+      this.vx = moveSpeed;
+      this.facing = "right";
+    }
+
+    this.onGround = isOnGround(this, solids);
+    const canDoubleJump = typeof hasReward === "function" && hasReward("double_jump");
+
+    if (input.isPressed("Space") || input.isPressed("ArrowUp") || input.isPressed("KeyW")) {
+      if (this.onGround) {
+        this.vy = jumpForce;
+        this.jumpCount = 1;
+      } else if (canDoubleJump && this.jumpCount < 2) {
+        this.vy = jumpForce;
+        this.jumpCount = 2;
+      }
+    }
+
+    applyGravity(this, gravity, maxFall);
+    moveWithCollision(this, this.vx, 0, solids);
+    moveWithCollision(this, 0, this.vy, solids);
+    this.onGround = isOnGround(this, solids);
+    if (this.onGround && this.vy > 0) {
+      this.vy = 0;
+    }
+
+    for (let i = 0; i < hazards.length; i++) {
+      if (isColliding(this, hazards[i])) {
+        this.x = level.spawn.x;
+        this.y = level.spawn.y;
+        this.vy = 0;
+        this.jumpCount = 0;
+      }
+    }
+
+    this.state = this.vx !== 0 || this.vy !== 0 ? "walk" : "idle";
   }
 
   updateTopDown(collisionObjects, movementBlocked) {

@@ -4,7 +4,10 @@ const INTERACTABLE_TYPES = {
   SIGN: "sign",
   NPC: "npc",
   PORTAL: "portal",
-  EXIT: "exit"
+  EXIT: "exit",
+  SAVE_POINT: "savePoint",
+  SUBMIT_POINT: "submitPoint",
+  COLORED_DOOR: "coloredDoor"
 };
 
 function getInteractionBox(player) {

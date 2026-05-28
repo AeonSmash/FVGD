@@ -15,7 +15,21 @@ Recommended demo flow in class:
 3. Read the hub sign (gray wall tiles near center)
 4. Enter **Sample Studio** (purple icon)
 5. Talk to the Guide NPC and inspect the portal placeholder
-6. Exit back to overworld and show debug overlay (F1)
+6. Beat the sample platformer → earn Yellow Key → try yellow door
+7. Save at green save point; submit at teal tile (Supabase)
+8. Review submissions in `admin/index.html`
+
+## Supabase and roster (Version 2)
+
+1. Apply SQL migrations — [supabase-setup.md](supabase-setup.md)
+2. Deploy Edge Functions (`login`, `enroll_student`, `reset_pin`)
+3. Set Vercel env vars and redeploy
+4. Enroll students via admin page (CSV: `class,student_id,display_name,pin`)
+5. PIN reset: use `reset_pin` function or Supabase Auth admin
+
+Pilot before full rollout: [pilot-checklist.md](pilot-checklist.md)
+
+Privacy: [privacy.md](privacy.md)
 
 ## Student Milestone Order
 

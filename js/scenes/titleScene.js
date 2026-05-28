@@ -11,7 +11,11 @@ const titleScene = {
     }
 
     if (input.isPressed("Enter")) {
-      sceneManager.changeScene("overworld");
+      if (typeof shouldShowLogin === "function" && shouldShowLogin()) {
+        sceneManager.changeScene("login");
+      } else {
+        sceneManager.changeScene("overworld");
+      }
     }
   },
 

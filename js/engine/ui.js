@@ -54,3 +54,20 @@ function drawVisitedHomeCount(ctx) {
   ctx.textBaseline = "middle";
   ctx.fillText(text, 16, 48);
 }
+
+function drawRewardsBar(ctx) {
+  if (!gameState.unlockedRewards || gameState.unlockedRewards.length === 0) {
+    return;
+  }
+  const labels = gameState.unlockedRewards.map(function (id) {
+    return getRewardLabel(id);
+  });
+  const text = "Rewards: " + labels.join(", ");
+  ctx.fillStyle = "rgba(0, 0, 0, 0.55)";
+  ctx.fillRect(8, canvas.height - 32, Math.min(520, canvas.width - 16), 24);
+  ctx.fillStyle = "#ffe66d";
+  ctx.font = "14px monospace";
+  ctx.textAlign = "left";
+  ctx.textBaseline = "middle";
+  ctx.fillText(text, 16, canvas.height - 20);
+}

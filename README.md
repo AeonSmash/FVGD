@@ -1,6 +1,6 @@
 # Class Multiverse Overworld Engine (Version 1)
 
-**Version:** 1.0.0  
+**Version:** 2.0.0  
 **Repository:** [https://github.com/AeonSmash/FVGD](https://github.com/AeonSmash/FVGD)  
 See [CHANGELOG.md](CHANGELOG.md) for release history.
 
@@ -23,19 +23,18 @@ Educational HTML5 Canvas overworld for the **Fundamentals of Video Game Design**
 | F1 | Toggle debug overlay |
 | F2 | Toggle collision box outlines |
 
-## Current Features (Version 1)
+## Current Features (Version 2)
 
-- Title screen with fade transition to overworld
-- Main Plaza tilemap (40x30 tiles) with paths, grass, trees, water, walls
-- Top-down player movement with rectangle collision
-- Camera follow with map boundary clamping
-- Data-driven home registry with sample and locked placeholder homes
-- Interaction prompts and home entrance
-- Sample home interior with NPC, portal placeholder, and exit
-- Dialogue system with speaker name and multiple lines
-- Fade transitions between scenes
-- Debug overlay (FPS, scene, coordinates, counts)
-- Documentation for teachers and students
+- Everything in Version 1, plus:
+- **Student home packs** via `js/students/<id>/pack.js` + manifest
+- **Platformer levels** launched from home portals (sample level included)
+- **Rewards** (keys/skills) and colored doors on the overworld
+- **Save point** in homes (localStorage; cloud when Supabase enabled)
+- **Submit for review** interactable (Supabase submissions table)
+- **Login** with class code + student PIN (optional cloud)
+- **Teacher admin** at `/admin/index.html` (roster, submissions, CSV export)
+- Vercel deploy with config injection — see [docs/vercel-deployment.md](docs/vercel-deployment.md)
+- Supabase backend — see [docs/supabase-setup.md](docs/supabase-setup.md)
 
 ## Folder Structure
 

@@ -49,13 +49,27 @@ student_name/
     └── audio/
 ```
 
-Version 1 includes a reference sample at `assets/students/sample/` and a playable sample in `js/scenes/sampleHomeScene.js`.
+Version 2 includes a reference pack at `js/students/sample/` (`pack.js` + `manifest.json`).
+
+## How to Add Your Home (student pack)
+
+1. Copy `js/students/sample/` to `js/students/your_id/`.
+2. Edit `manifest.json` (id, name, position on overworld, `platformerLevelId`, `rewardId`).
+3. Edit `pack.js` — room layout and interactables (NPC, portal, save point, submit, exit).
+4. Add dialogue keys to `js/data/dialogueData.js`.
+5. Add platformer level to `js/data/platformerLevels.js`.
+6. Register your pack: add `<script src="js/students/your_id/pack.js"></script>` in `index.html` **before** `homeRegistry.js`.
+7. Do **not** edit `overworldScene.js` or engine files.
+
+## Submit for grading
+
+Use the **Submit Work** interactable (teal tile) in your home when logged in with Supabase. Your teacher reviews submissions in `admin/index.html`.
 
 ## How to Learn From the Sample Home
 
-1. Open `js/scenes/sampleHomeScene.js` and read how the room, interactables, and dialogue are defined.
-2. Open `js/data/dialogueData.js` and see how dialogue lines are stored separately from scene logic.
-3. Open `js/data/homeRegistry.js` and see how overworld home icons are registered.
+1. Open `js/students/sample/pack.js` and read the room + interactable layout.
+2. Open `js/data/dialogueData.js` for dialogue text.
+3. See how `registerStudentPack` feeds `homeRegistry` automatically.
 
 ## Rules for Safe Extensions
 

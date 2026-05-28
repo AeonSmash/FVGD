@@ -1,0 +1,9 @@
+{
+  "name": "fvgd-multiverse",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Class Multiverse Overworld — educational HTML5 Canvas engine",
+  "scripts": {
+    "build": "node scripts/inject-config.js"
+  }
+}

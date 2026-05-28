@@ -19,8 +19,12 @@ const input = {
 const INPUT_CODES = [
   "KeyW", "KeyA", "KeyS", "KeyD",
   "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight",
-  "Enter", "KeyE", "Escape", "Space",
-  "ShiftLeft", "ShiftRight", "F1", "F2"
+  "Enter", "KeyE", "Escape", "Space", "Tab", "Backspace",
+  "ShiftLeft", "ShiftRight", "F1", "F2",
+  "Digit0", "Digit1", "Digit2", "Digit3", "Digit4",
+  "Digit5", "Digit6", "Digit7", "Digit8", "Digit9",
+  "Numpad0", "Numpad1", "Numpad2", "Numpad3", "Numpad4",
+  "Numpad5", "Numpad6", "Numpad7", "Numpad8", "Numpad9"
 ];
 
 window.addEventListener("keydown", function (event) {

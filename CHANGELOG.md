@@ -4,6 +4,27 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [2.0.0] - 2026-05-28
+
+### Added
+
+- Student home template factory (`createHomeScene`) and sample student pack
+- Platformer graybox scene with teacher sample level and goal reward (`yellow_key`)
+- Reward registry, rewards HUD, and yellow door on overworld
+- localStorage save/load with locked JSON schema (`saveLocal.js`)
+- Save point and submit-for-review interactables in homes
+- Supabase schema, RLS policies, reward seed migrations
+- Edge Functions: `login`, `enroll_student`, `reset_pin` (class code + PIN)
+- Game client: auth, cloud save, telemetry, submissions
+- Login scene; optional Supabase via `js/config.js` + Vercel inject script
+- Teacher admin page (`admin/index.html`)
+- Docs: `privacy.md`, `supabase-setup.md`, `pilot-checklist.md`, `vercel-deployment.md`
+
+### Changed
+
+- `homeRegistry` built from student manifests + plot placeholders
+- Boot flow loads save, registers dynamic home scenes
+
 ## [1.0.0] - 2026-05-27
 
 ### Added

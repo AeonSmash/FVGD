@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "name": "fvgd",
+  "buildCommand": "node scripts/inject-config.js",
+  "outputDirectory": ".",
+  "installCommand": "npm install --omit=dev 2>/dev/null || echo skip",
+  "rewrites": [
+    { "source": "/admin", "destination": "/admin/index.html" },
+    { "source": "/admin/(.*)", "destination": "/admin/index.html" }
+  ],
+  "headers": [
+    {
+      "source": "/js/config.js",
+      "headers": [{ "key": "Cache-Control", "value": "no-cache" }]
+    }
+  ]
+}

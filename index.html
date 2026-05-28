@@ -9,16 +9,26 @@
 <body>
   <canvas id="gameCanvas" width="960" height="640"></canvas>
 
+  <script src="js/config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
   <script src="js/engine/canvas.js"></script>
   <script src="js/engine/gameState.js"></script>
   <script src="js/engine/input.js"></script>
   <script src="js/engine/collision.js"></script>
+  <script src="js/engine/physics.js"></script>
   <script src="js/engine/camera.js"></script>
   <script src="js/engine/ui.js"></script>
   <script src="js/engine/transition.js"></script>
   <script src="js/engine/debug.js"></script>
+  <script src="js/engine/saveLocal.js"></script>
 
   <script src="js/data/overworldMap.js"></script>
+  <script src="js/data/overworldDoors.js"></script>
+  <script src="js/data/rewardRegistry.js"></script>
+  <script src="js/data/platformerLevels.js"></script>
+  <script src="js/data/studentManifests.js"></script>
+  <script src="js/students/sample/pack.js"></script>
   <script src="js/data/homeRegistry.js"></script>
   <script src="js/data/dialogueData.js"></script>
 
@@ -27,11 +37,18 @@
   <script src="js/entities/npc.js"></script>
   <script src="js/entities/portal.js"></script>
 
+  <script src="js/engine/supabaseClient.js"></script>
+  <script src="js/engine/auth.js"></script>
+  <script src="js/engine/saveCloud.js"></script>
+  <script src="js/engine/telemetry.js"></script>
+  <script src="js/engine/submissions.js"></script>
+
   <script src="js/engine/sceneManager.js"></script>
   <script src="js/scenes/titleScene.js"></script>
+  <script src="js/scenes/loginScene.js"></script>
   <script src="js/scenes/overworldScene.js"></script>
+  <script src="js/scenes/platformerScene.js"></script>
   <script src="js/scenes/homeSceneTemplate.js"></script>
-  <script src="js/scenes/sampleHomeScene.js"></script>
 
   <script src="js/engine/gameLoop.js"></script>
   <script src="js/main.js"></script>
