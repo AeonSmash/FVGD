@@ -3,6 +3,7 @@
   "version": 2,
   "name": "fvgd",
   "buildCommand": "npm run build",
+  "outputDirectory": "public",
   "installCommand": "echo skip",
   "rewrites": [
     { "source": "/admin", "destination": "/admin/index.html" },

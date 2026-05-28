@@ -5,3 +5,6 @@ desktop.ini
 .idea/
 *.log
 .cursor/
+
+.vercel
+public/

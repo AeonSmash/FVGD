@@ -49,7 +49,7 @@ If a deploy fails, open **Settings → General** and confirm:
 | Framework Preset | Other |
 | Root Directory | `./` (empty or root) |
 | Build Command | `npm run build` (or leave empty — `vercel.json` sets it) |
-| Output Directory | *(leave empty — static files at repo root)* |
+| Output Directory | `public` (set by `vercel.json` after build) |
 | Install Command | `echo skip` or empty |
 
 ---
