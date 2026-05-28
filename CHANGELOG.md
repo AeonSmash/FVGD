@@ -4,6 +4,17 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [2.0.4] - 2026-05-28
+
+### Added
+
+- [`docs/student-world-and-platformer-prep.md`](docs/student-world-and-platformer-prep.md) — comprehensive student reference for overworld home and platformer authoring (phases, checklists, playtesting, polish, glossary)
+
+### Changed
+
+- Student prep guide is topic-based only (no week/day schedule); includes topic index for teacher curriculum integration
+- [`docs/student-content-guide.md`](docs/student-content-guide.md) and [`docs/teacher-notes.md`](docs/teacher-notes.md) link to the new prep document
+
 ## [2.0.3] - 2026-05-28
 
 ### Fixed

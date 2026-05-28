@@ -1,6 +1,6 @@
 # Class Multiverse Overworld Engine (Version 1)
 
-**Version:** 2.0.2  
+**Version:** 2.0.4  
 **Repository:** [https://github.com/AeonSmash/FVGD](https://github.com/AeonSmash/FVGD)  
 **Live (Vercel):** [https://fvgd-flax.vercel.app](https://fvgd-flax.vercel.app) — redeploys on push to `main`  
 See [CHANGELOG.md](CHANGELOG.md) for release history. Deploy guide: [docs/vercel-deployment.md](docs/vercel-deployment.md).

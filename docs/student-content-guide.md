@@ -1,5 +1,7 @@
 # Student Content Guide
 
+**Comprehensive world & platformer prep (no week schedule):** [student-world-and-platformer-prep.md](student-world-and-platformer-prep.md)
+
 This guide explains what students **may** customize later and what they **must not** edit in Version 1.
 
 ## What Students May Eventually Create

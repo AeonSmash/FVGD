@@ -31,6 +31,10 @@ Pilot before full rollout: [pilot-checklist.md](pilot-checklist.md)
 
 Privacy: [privacy.md](privacy.md)
 
+## Student presentations
+
+Share [student-world-and-platformer-prep.md](student-world-and-platformer-prep.md) as the comprehensive student reference (no built-in week schedule)—map its topic index into your 32-week plan.
+
 ## Student Milestone Order
 
 Use this order so scope stays manageable:
