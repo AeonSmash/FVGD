@@ -11,7 +11,9 @@
 | Production URL live | Redeploy after env vars; see [Verify](#verify) |
 
 **Project:** [aeonsmashs-projects/fvgd](https://vercel.com/aeonsmashs-projects/fvgd)  
-**Likely URL:** `https://fvgd.vercel.app` (or the domain shown under Vercel → Domains)
+**Production URL:** [https://fvgd-flax.vercel.app](https://fvgd-flax.vercel.app) (assigned to this project)
+
+`https://fvgd.vercel.app` may show **404** until you add it under Vercel → **Domains** → assign to project **fvgd**, or use the alias command below.
 
 ---
 
@@ -72,18 +74,27 @@ Or keep defaults for offline play.
 
 ## Verify
 
-1. Open your production URL (Vercel → Domains).
+1. Open **https://fvgd-flax.vercel.app** (this project's production URL).
 2. Title screen: **Class Multiverse Overworld**.
 3. Browser console (F12): `Canvas ready.`
 4. Press **Enter** → overworld or login (if Supabase env is set).
-5. Admin: `https://<your-domain>/admin`
+5. Admin: **https://fvgd-flax.vercel.app/admin**
 
-### If you see 404
+### If `fvgd.vercel.app` shows 404 but deploy is Ready
 
-- Check **Deployments** tab for a failed build (red).
-- Open build logs; fix any `node scripts/inject-config.js` error.
-- Confirm **Output Directory** is not set to a subfolder like `dist` or `public`.
-- Push a new commit to `main` to redeploy.
+The game is deployed; that hostname is **not linked** to this project. Vercel assigned **fvgd-flax.vercel.app** instead.
+
+**Fix options:**
+
+1. **Use the working URL:** https://fvgd-flax.vercel.app (share this with students).
+2. **Reclaim `fvgd.vercel.app`:** Vercel → Domains → find `fvgd.vercel.app` on another project → remove it → add it to project **fvgd** → Production.
+3. Or add a custom domain (e.g. `fvgd.aeonsmash.com`) under project **fvgd**.
+
+### If every URL shows 404
+
+- Check **Deployments** for a failed build (red).
+- Build logs should end with `Vercel build OK: public/ output ready`.
+- **Build Command:** `node scripts/vercel-build.js` · **Output Directory:** `public`
 
 ---
 
