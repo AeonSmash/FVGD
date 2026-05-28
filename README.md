@@ -2,7 +2,8 @@
 
 **Version:** 2.0.0  
 **Repository:** [https://github.com/AeonSmash/FVGD](https://github.com/AeonSmash/FVGD)  
-See [CHANGELOG.md](CHANGELOG.md) for release history.
+**Live (Vercel):** [https://fvgd.vercel.app](https://fvgd.vercel.app) — redeploys on push to `main`  
+See [CHANGELOG.md](CHANGELOG.md) for release history. Deploy guide: [docs/vercel-deployment.md](docs/vercel-deployment.md).
 
 Educational HTML5 Canvas overworld for the **Fundamentals of Video Game Design** course. Students will eventually add their own homes, dialogue, and platformer levels. Version 1 delivers the teacher-owned engine plus one sample home.
 
