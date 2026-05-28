@@ -1,0 +1,2 @@
+Placeholder folder for the sample student home assets.
+Replace icon.png with a 32x32 home icon in a future version.
