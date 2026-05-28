@@ -4,6 +4,13 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [2.0.3] - 2026-05-28
+
+### Fixed
+
+- Boot crash: `homeRegistry` no longer calls `getHomeSceneNameForManifest` before `homeSceneTemplate.js` loads
+- Supabase client variable renamed to avoid `Identifier 'supabase' has already been declared` clash with the UMD library
+
 ## [2.0.2] - 2026-05-28
 
 ### Fixed

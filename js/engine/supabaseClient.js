@@ -1,4 +1,5 @@
-let supabase = null;
+// Avoid name "supabase" — collides with UMD global from @supabase/supabase-js
+let fvgdSupabaseClient = null;
 let supabaseScriptPromise = null;
 
 function loadSupabaseScript() {
@@ -43,12 +44,12 @@ async function initSupabase() {
     return null;
   }
 
-  supabase = window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseAnonKey);
-  return supabase;
+  fvgdSupabaseClient = window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseAnonKey);
+  return fvgdSupabaseClient;
 }
 
 function getSupabase() {
-  return supabase;
+  return fvgdSupabaseClient;
 }
 
 function getFunctionsUrl() {

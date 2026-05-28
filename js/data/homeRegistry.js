@@ -70,7 +70,7 @@ function buildHomeRegistryFromManifests() {
       position: m.position,
       width: m.width || 32,
       height: m.height || 32,
-      homeScene: getHomeSceneNameForManifest(m.id),
+      homeScene: "home_" + m.id,
       locked: !!m.locked,
       platformerLevelId: m.platformerLevelId,
       rewardId: m.rewardId
@@ -92,11 +92,13 @@ function buildHomeRegistryFromManifests() {
   return registry;
 }
 
-let homeRegistry = buildHomeRegistryFromManifests();
+let homeRegistry = [];
 
 function refreshHomeRegistry() {
   homeRegistry = buildHomeRegistryFromManifests();
 }
+
+refreshHomeRegistry();
 
 function validateHomeRegistry(registry) {
   const seenIds = {};
