@@ -40,17 +40,22 @@ Without these, the game still runs **offline** (login skipped; local save only).
 
 ---
 
-## Dashboard settings (confirm once)
+## Dashboard settings (important)
 
-If a deploy fails, open **Settings → General** and confirm:
+In **Settings → General → Build & Development Settings**, either:
+
+- Turn **Override** OFF for Build Command and Output Directory (recommended — use `vercel.json`), **or**
+- Set them manually to match exactly:
 
 | Setting | Value |
 |---------|--------|
 | Framework Preset | Other |
-| Root Directory | `./` (empty or root) |
-| Build Command | `npm run build` (or leave empty — `vercel.json` sets it) |
-| Output Directory | `public` (set by `vercel.json` after build) |
-| Install Command | `echo skip` or empty |
+| Root Directory | `.` (repo root) |
+| Build Command | `node scripts/vercel-build.js` |
+| Output Directory | `public` |
+| Install Command | `echo skip` |
+
+If Output Directory is `public` but Build Command does not run `vercel-build.js`, you will see: *No Output Directory named "public" found*.
 
 ---
 
