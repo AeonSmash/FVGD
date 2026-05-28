@@ -80,6 +80,9 @@ async function loginWithClassPin(classCode, studentId, pin) {
 }
 
 async function restoreAuthSession() {
+  const cfg = window.FVGD_CONFIG || {};
+  if (!cfg.supabaseEnabled) return false;
+
   const client = getSupabase();
   if (!client) return false;
 

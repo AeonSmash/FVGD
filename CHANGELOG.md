@@ -4,6 +4,26 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [2.0.2] - 2026-05-28
+
+### Fixed
+
+- Blank screen on load: removed blocking Supabase CDN script from `index.html` (game scripts now always run)
+- Supabase JS loads only when `supabaseEnabled` is true
+- Boot no longer hangs indefinitely on auth restore (3s timeout); errors show on canvas if boot fails
+
+## [2.0.1] - 2026-05-28
+
+### Fixed
+
+- Vercel production deploy: `vercel-build.js` now always generates `public/` and fails the build if `index.html` is missing
+- Documented correct production URL **https://fvgd-flax.vercel.app** (`fvgd.vercel.app` was not assigned to this project)
+
+### Changed
+
+- `vercel.json` build command set to `node scripts/vercel-build.js`; removed deprecated `name` property
+- [`docs/vercel-deployment.md`](docs/vercel-deployment.md) updated with dashboard override notes and 404 troubleshooting
+
 ## [2.0.0] - 2026-05-28
 
 ### Added

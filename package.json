@@ -1,6 +1,6 @@
 {
   "name": "fvgd-multiverse",
-  "version": "2.0.0",
+  "version": "2.0.2",
   "private": true,
   "description": "Class Multiverse Overworld — educational HTML5 Canvas engine",
   "scripts": {
